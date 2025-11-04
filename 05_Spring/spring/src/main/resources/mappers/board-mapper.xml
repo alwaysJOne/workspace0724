@@ -6,8 +6,11 @@
 <mapper namespace="com.kh.spring.model.mapper.BoardMapper">
     <resultMap id="boardResultMap" type="Board">
         <result column="BOARD_NO" property="boardNo"/>
+        <result column="CATEGORY_NO" property="categoryNo"/>
         <result column="CATEGORY_NAME" property="categoryName"/>
         <result column="BOARD_TITLE" property="boardTitle"/>
+        <result column="BOARD_CONTENT" property="boardContent"/>
+        <result column="BOARD_WRITER" property="boardWriter"/>
         <result column="MEMBER_ID" property="memberId"/>
         <result column="COUNT" property="count"/>
         <result column="CREATE_DATE" property="createDate"/>
@@ -16,6 +19,14 @@
     <resultMap id="categoryResultMap" type="Category">
         <result column="CATEGORY_NO" property="categoryNo"/>
         <result column="CATEGORY_NAME" property="categoryName"/>
+    </resultMap>
+
+    <resultMap id="attachmentResultMap" type="Attachment">
+        <result column="FILE_NO" property="fileNo"/>
+        <result column="REF_BNO" property="refBoardNo"/>
+        <result column="ORIGIN_NAME" property="originName"/>
+        <result column="CHANGE_NAME" property="changeName"/>
+        <result column="FILE_PATH" property="filePath"/>
     </resultMap>
 
     <select id="selectCategories" resultMap="categoryResultMap">
@@ -86,4 +97,53 @@
             #{fileLevel}
         )
     </insert>
+    <!-- 조회수 증가 -->
+    <update id="increaseCount" parameterType="_int">
+        UPDATE BOARD
+           SET COUNT = COUNT + 1
+         WHERE BOARD_NO = #{boardNo}
+    </update>
+    <select id="selectBoardByNo" parameterType="_int" resultMap="boardResultMap">
+        SELECT B.BOARD_NO,
+                B.CATEGORY_NO,
+                C.CATEGORY_NAME,
+                B.BOARD_TITLE,
+                B.BOARD_CONTENT,
+                B.BOARD_WRITER,
+                M.MEMBER_ID,
+                B.COUNT,
+                TO_CHAR(B.CREATE_DATE, 'YYYY-MM-DD') AS CREATE_DATE
+        FROM BOARD B
+        JOIN CATEGORY C on B.CATEGORY_NO = C.CATEGORY_NO
+        JOIN MEMBER M ON B.BOARD_WRITER = M.MEMBER_NO
+        WHERE BOARD_NO = #{boardNo}
+          AND B.STATUS = 'Y'
+    </select>
+
+    <select id="selectAttachmentByBoardNo" parameterType="_int" resultMap="attachmentResultMap">
+        SELECT FILE_NO,
+                REF_BNO,
+                ORIGIN_NAME,
+                CHANGE_NAME,
+                FILE_PATH
+        FROM ATTACHMENT
+        WHERE REF_BNO = #{boardNo}
+          AND STATUS = 'Y'
+    </select>
+
+    <!-- 게시글 수정 -->
+    <update id="updateBoard" parameterType="Board">
+        UPDATE BOARD
+        SET CATEGORY_NO = #{categoryNo},
+            BOARD_TITLE = #{boardTitle},
+            BOARD_CONTENT = #{boardContent}
+        WHERE BOARD_NO = #{boardNo}
+    </update>
+
+    <!-- 첨부파일 삭제 -->
+    <update id="deleteAttachment" parameterType="_int">
+        UPDATE ATTACHMENT
+        SET STATUS = 'N'
+        WHERE FILE_NO = #{fileNo}
+    </update>
 </mapper>

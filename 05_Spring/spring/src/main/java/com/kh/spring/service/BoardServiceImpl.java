@@ -60,10 +60,63 @@ public class BoardServiceImpl implements BoardService {
         int result = boardMapper.insertBoard(board);
 
         if(result > 0 && file != null && !file.isEmpty()) {
-            log.info("boardNo : {}", board.getBoardNo());
             Attachment at = new Attachment();
             at.setRefBoardNo(board.getBoardNo());
             at.setOriginName(file.getOriginalFilename());
+            at.setFilePath("resources/uploadFiles/");
+            at.setChangeName(saveFile(file, "C:/workspace/05_Spring/spring/src/main/webapp/resources/uploadFiles/"));
+            at.setFileLevel(1);
+
+            result = boardMapper.insertAttachment(at);
+        }
+
+        return result;
+    }
+
+    @Override
+    public Map<String,Object> getBoardByIdWithCount(int boardNo) {
+        int result = boardMapper.increaseCount(boardNo);
+
+        Map<String,Object> map = new HashMap<>();
+        if(result > 0){
+          //board, attachment
+            Board board = boardMapper.selectBoardByNo(boardNo);
+            Attachment at = boardMapper.selectAttachmentByBoardNo(boardNo);
+
+            map.put("board",board);
+            map.put("attachment",at);
+        }
+
+        return map;
+    }
+
+    @Override
+    public Map<String,Object> getBoardById(int boardNo) {
+        Map<String,Object> map = new HashMap<>();
+
+        Board board = boardMapper.selectBoardByNo(boardNo);
+        Attachment at = boardMapper.selectAttachmentByBoardNo(boardNo);
+
+        map.put("board",board);
+        map.put("attachment",at);
+        return map;
+    }
+
+    @Override
+    @Transactional
+    public int updateBoard(Board board, MultipartFile file, Integer originFileNo) {
+        int result = boardMapper.updateBoard(board);
+
+        if(result > 0 && file != null && !file.isEmpty()) {// 업로드할 file이 있다면
+            if(originFileNo != null){ //기존파일이 존재한다면
+                boardMapper.deleteAttachment(originFileNo);
+            }
+
+            //새로운 파일 등록
+            Attachment at = new Attachment();
+            at.setRefBoardNo(board.getBoardNo());
+            at.setOriginName(file.getOriginalFilename());
+            at.setFilePath("resources/uploadFiles/");
             at.setChangeName(saveFile(file, "C:/workspace/05_Spring/spring/src/main/webapp/resources/uploadFiles/"));
             at.setFileLevel(1);
 

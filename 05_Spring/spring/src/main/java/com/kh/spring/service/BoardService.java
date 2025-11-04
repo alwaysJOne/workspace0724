@@ -15,4 +15,7 @@ public interface BoardService {
     //게시판 관련
     public Map<String, Object> getBoardList(int currentPage);
     public int insertBoard(Board board, MultipartFile file);
+    public Map<String,Object> getBoardByIdWithCount(int boardNo);
+    public Map<String,Object> getBoardById(int boardNo);
+    public int updateBoard(Board board, MultipartFile file, Integer originFileNo);
 }
