@@ -9,7 +9,7 @@ const Profile = () => {
     const query = new URLSearchParams(search);
 
     const sort = query.get('sort');
-    console.log(query);
+
     return (
     <>
         {sort}
