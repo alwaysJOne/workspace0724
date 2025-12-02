@@ -43,17 +43,6 @@ export const AddButton = styled.button`
     }
 `
 
-export const TodoListContainer = styled.ul`
-    list-style: none;
-` 
-
-export const EmptyMessage = styled.div`
-    text-align: center;
-    padding: 36px;
-    color: #999999;
-    font-size: 16px;
-`
-
 
 
 

@@ -51,12 +51,29 @@ export const TodoProvider = ({children}) => {
         )
     }
 
+    const getState = () => {
+        const total = todos.length;
+        const completed = todos.filter(todo => todo.completed).length;
+        const pending = total - completed;
+
+        const work = todos.filter(todo => todo.category === 'work').length
+        const health = todos.filter(todo => todo.category === 'health').length
+        const study = todos.filter(todo => todo.category === 'study').length
+
+        const byCategory = {
+            work, health, study
+        }
+
+        return {total, completed, pending, byCategory}
+    }
+
     const value = {
         todos,
         addTodo,
         deleteTodo,
         updateTodo,
         toggleTodo,
+        getState,
     }
     return (
         <TodoContext.Provider value={value}>{children}</TodoContext.Provider>

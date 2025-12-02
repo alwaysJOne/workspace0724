@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { AddButton, FormContainer, Input, Select } from './TodoForm.styled'
 
-const TodoForm = ({ onAdd }) => {
+const TodoForm = ({ onAdd, disableOption }) => {
     const [text, setText] = useState('');
     const [category, setCategory] = useState('work');
 
@@ -19,11 +19,13 @@ const TodoForm = ({ onAdd }) => {
     }
   return (
     <FormContainer>
-        <Select value={category} onChange={ ev => setCategory(ev.target.value)}>
-            <option value="study">학습</option>
-            <option value="work">업무</option>
-            <option value="health">건강</option>
-        </Select>
+        {!disableOption?.category &&
+            <Select value={category} onChange={ ev => setCategory(ev.target.value)}>
+                <option value="study">학습</option>
+                <option value="work">업무</option>
+                <option value="health">건강</option>
+            </Select>
+        }
         <Input
             type='text'
             value={text}

@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { Container, FilterButton, FilterButtons } from './TodoListPage.styled'
+import { Container, EmptyMessage, FilterButton, FilterButtons, Title, TodoListContainer } from './TodoListPage.styled'
 import TodoForm from '../components/Todo/TodoForm'
 import { useTodos } from '../context/TodoContext'
-import { EmptyMessage, TodoListContainer } from '../components/Todo/TodoForm.styled'
 import TodoItem from '../components/Todo/TodoItem'
 
 const TodoListPage = () => {
@@ -16,6 +15,7 @@ const TodoListPage = () => {
     })
     return (
         <Container>
+            <Title>할일 목록</Title>
             <TodoForm onAdd = {addTodo}/>
 
             <FilterButtons>

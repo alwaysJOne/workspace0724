@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -18,7 +19,7 @@ export const FilterButtons = styled.div`
     margin-bottom: 24px;
 `
 
-export const FilterButton = styled.button`
+export const FilterButton = styled(Link)`
     padding: 8px 16px;
     border: 1px solid #e2e2e2;
     cursor: pointer;
