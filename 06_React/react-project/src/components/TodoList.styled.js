@@ -26,10 +26,24 @@ export const TodoText = styled.span`
     text-decoration: ${props => props.completed ? "line-through" : "none"};
 `
 
-export const DeleteButton = styled.button`
+export const NormalButton = styled.button`
     padding: 6px 12px;
-    background: red;
     color: white;
-    border-radius: 4px;
+    background: blue;
     cursor: pointer;
+    border-radius: 4px;
+    &:hover{
+        scale: 0.9;
+    }
+`
+
+export const DeleteButton = styled(NormalButton)`
+    background: red;
+`
+
+export const FilterContainer = styled.div`
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
 `

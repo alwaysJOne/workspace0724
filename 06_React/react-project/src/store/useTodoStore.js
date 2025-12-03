@@ -16,11 +16,30 @@ const useTodoStore = create((set, get) => ({
             completed: false,
         }
     ],
+    filter: 'all', //all, active, completed
+    setFilter: (filter) => set({filter}),
     toggleTodo: (id) => set(state => ({
         todos: state.todos.map(todo => 
             todo.id === id ? {...todo, completed: !todo.completed} : todo
         )
-    }))
+    })),
+    deleteTodo: (id) => set(state => ({
+        todos: state.todos.filter(todo => todo.id !== id)
+    })),
+    getFilteredTodos: () => {
+        const {todos, filter} = get();
+
+        return todos.filter(todo => {
+            switch(filter){
+                case "active":
+                    return !todo.completed;
+                case "completed":
+                    return todo.completed;  
+                default:
+                    return true;  
+            }
+        });
+    }
 }))
 
 

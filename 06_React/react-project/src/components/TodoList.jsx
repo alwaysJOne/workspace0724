@@ -1,13 +1,32 @@
 import React from 'react'
-import { CheckBox, DeleteButton, ListContainer, TodoItem, TodoText } from './TodoList.styled'
+import { CheckBox, DeleteButton, FilterContainer, ListContainer, NormalButton, TodoItem, TodoText } from './TodoList.styled'
 import useTodoStore from '../store/useTodoStore'
 
 
 
 const TodoList = () => {
-    const {todos, toggleTodo} = useTodoStore();
-  return (
+    const {getFilteredTodos, setFilter, toggleTodo, deleteTodo} = useTodoStore();
+  
+    const todos = getFilteredTodos();
+    return (
     <ListContainer>
+        <FilterContainer>
+            <NormalButton
+                onClick={() => setFilter('all')}
+            >
+                전체
+            </NormalButton>
+            <NormalButton
+                onClick={() => setFilter('active')}
+            >
+                진행중
+            </NormalButton>
+            <NormalButton
+                onClick={() => setFilter('completed')}
+            >
+                완료
+            </NormalButton>
+        </FilterContainer>
         {todos.map(todo => (
             <TodoItem key={todo.id}>
                 <CheckBox 
@@ -16,7 +35,7 @@ const TodoList = () => {
                     onChange={() => toggleTodo(todo.id)}
                 />
                 <TodoText completed={todo.completed}>{todo.text}</TodoText>
-                <DeleteButton>삭제</DeleteButton>
+                <DeleteButton onClick={()=> deleteTodo(todo.id)}>삭제</DeleteButton>
             </TodoItem>
         ))}
     </ListContainer>
