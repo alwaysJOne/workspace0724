@@ -20,4 +20,22 @@
                 UPDATE_AT
         FROM BOARD
     </select>
+    <insert id="save">
+        INSERT INTO
+        BOARD(
+            TITLE,
+            CONTENTS,
+            FILE_NAME,
+            MEMBER_EMAIL,
+            CREATE_AT,
+            UPDATE_AT
+        ) VALUES (
+            #{title},
+            #{contents},
+            #{fileName},
+            #{memberEmail},
+            CURRENT_TIMESTAMP,
+            CURRENT_TIMESTAMP
+        )
+    </insert>
 </mapper>

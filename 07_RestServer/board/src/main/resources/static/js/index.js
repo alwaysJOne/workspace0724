@@ -61,11 +61,11 @@ function drawBoardList(boardList){
     if (boardList && boardList.length > 0) {
         boardBody.innerHTML = "";
         for(let board of boardList){
-            boardBody.innerHTML += `<tr onclick="location.href='/boardDetail/${board.boardId}'">
-                                        <td>${board.boardId}</td>
+            boardBody.innerHTML += `<tr onclick="location.href='/boardDetail/${board.board_id}'">
+                                        <td>${board.board_id}</td>
                                         <td>${board.title}</td>
-                                        <td>${board.memberEmail}</td>
-                                        <td>${formatDate(board.createAt)}</td>
+                                        <td>${board.member_email}</td>
+                                        <td>${formatDate(board.created_at)}</td>
                                     </tr>`
         }
     } else {
@@ -80,7 +80,7 @@ function insertBoard(){
 
     const formData = new FormData();
     formData.append("title", document.querySelector('#title').value)
-    formData.append("userId", document.querySelector('#userId').value)
+    formData.append("user_id", document.querySelector('#userId').value)
     formData.append("contents", document.querySelector('#contents').value)
     formData.append("upfile", document.querySelector('#upfile').files[0])
 

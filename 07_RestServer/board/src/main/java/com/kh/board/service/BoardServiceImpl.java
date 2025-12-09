@@ -1,6 +1,7 @@
 package com.kh.board.service;
 
 import com.kh.board.entity.Board;
+import com.kh.board.entity.Member;
 import com.kh.board.mapper.BoardMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,15 @@ public class BoardServiceImpl implements BoardService {
 //        this.boardMapper = boardMapper;
 //    }
 
+
+
     @Override
     public List<Board> findAll() {
         return boardMapper.findAll();
+    }
+
+    @Override
+    public int save(Board board) {
+        return boardMapper.save(board);
     }
 }
