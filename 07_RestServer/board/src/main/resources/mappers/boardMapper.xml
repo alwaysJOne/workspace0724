@@ -51,4 +51,17 @@
         FROM BOARD
         WHERE BOARD_ID = #{boardId}
     </select>
+    <delete id="delete">
+        DELETE
+        FROM BOARD
+        WHERE BOARD_ID = #{boardId}
+    </delete>
+    <update id="update">
+        UPDATE BOARD
+        SET TITLE = #{title},
+            CONTENTS = #{contents},
+            FILE_NAME = #{fileName},
+            UPDATE_AT = CURRENT_TIMESTAMP
+        WHERE BOARD_ID = #{boardId}
+    </update>
 </mapper>

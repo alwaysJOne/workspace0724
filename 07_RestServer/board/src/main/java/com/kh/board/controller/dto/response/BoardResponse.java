@@ -13,7 +13,7 @@ public class BoardResponse {
     @Setter
     @Builder
     public static class SimpleDto{
-        private String board_id;
+        private Long board_id;
         private String member_email;
         private String title;
         private LocalDateTime created_at;
@@ -32,7 +32,7 @@ public class BoardResponse {
     @Setter
     @Builder
     public static class DetailDto{
-        private String board_id;
+        private Long board_id;
         private String member_email;
         private String title;
         private String contents;

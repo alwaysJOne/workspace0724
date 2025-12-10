@@ -69,4 +69,46 @@ public class BoardController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<String> deleteBoard(@PathVariable Long boardId){
+       int result = boardService.delete(boardId);
+
+       return new ResponseEntity<>(result + "개의 게시글 삭제완료", HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<String> updateBoard(BoardRequest.UpdateDto request, MultipartFile upfile) throws IOException {
+        if(upfile != null && !upfile.isEmpty()){
+            File file = new File("C:\\workspace\\07_RestServer\\board\\src\\main\\resources\\uploads", upfile.getOriginalFilename());
+            upfile.transferTo(file);
+
+            request.setOrigin_name("/uploads/"+upfile.getOriginalFilename());
+        }
+
+        Board board = request.toEntity();
+
+        int result = boardService.update(board);
+
+        return new ResponseEntity<>("게시글 수정완료", HttpStatus.OK);
+    }
+
+    @PatchMapping
+    public ResponseEntity<String> updateBoard(BoardRequest.PatchDto request, MultipartFile upfile) throws IOException {
+        if(upfile != null && !upfile.isEmpty()){
+            File file = new File("C:\\workspace\\07_RestServer\\board\\src\\main\\resources\\uploads", upfile.getOriginalFilename());
+            upfile.transferTo(file);
+
+            request.setOrigin_name("/uploads/"+upfile.getOriginalFilename());
+        }
+
+        int result = boardService.patch(
+                request.getBoard_id(),
+                request.getTitle(),
+                request.getContents(),
+                request.getOrigin_name()
+        );
+
+        return new ResponseEntity<>("게시글 수정완료", HttpStatus.OK);
+    }
 }

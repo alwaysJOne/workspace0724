@@ -110,27 +110,25 @@ function updateBoard(){
     if(!confirm("글을 정말 수정하시겠습니까?"))
         return;
 
-    const path = window.location.pathname;
-    const pathParts = path.split('/');
-    const boardId = pathParts[pathParts.length - 1];
+    const boardId = getUrlParam("board_id");
 
     const formData = new FormData();
     formData.append("title", document.querySelector('#title').value)
     formData.append("contents", document.querySelector('#contents').value)
     formData.append("upfile", document.querySelector('#upfile').files[0])
-    formData.append("originFile", document.querySelector('#originFile').value)
-    formData.append("boardId", boardId);
+    formData.append("origin_name", document.querySelector('#originFile').value)
+    formData.append("board_id", boardId);
 
     $.ajax({
         url: "http://localhost:8888/api/board",
-        type: "PUT",
+        type: "PUT", //전체교체, patch(부분수정)
         data: formData,
         contentType: false, // FormData를 사용하면 contentType은 false로 설정
         processData: false, // FormData를 사용할 경우 데이터 직렬화 비활성화
         success: function(response) {
             console.log(response)
             alert("글이 성공적으로 수정되었습니다.");
-            window.location.href = "/boardDetail/" + boardId; 
+            window.location.href = "/boardDetail.html?board_id=" + boardId;
         },
         error: function(error) {
             alert("글 등록에 실패했습니다.");
@@ -142,10 +140,8 @@ function updateBoard(){
 function deleteBoard(){
     if(!confirm("글을 정말 삭제하시겠습니까?"))
         return;
-    
-    const path = window.location.pathname;
-    const pathParts = path.split('/');
-    const boardId = pathParts[pathParts.length - 1];
+
+    const boardId = getUrlParam("board_id");
 
 
     $.ajax({
