@@ -45,3 +45,44 @@ Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection wa
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	... 13 more
+2025-12-10 14:10:52.891007+09:00 jdbc[63]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "drop [*]database board"; expected "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, MATERIALIZED, VIEW, ROLE, ALIAS, SCHEMA, ALL OBJECTS, DOMAIN, TYPE, AGGREGATE, SYNONYM"; SQL statement:
+drop database board [42001-240]
+2025-12-10 14:11:26.824072+09:00 jdbc[63]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DROP [*]DATABASE BOARD"; expected "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, MATERIALIZED, VIEW, ROLE, ALIAS, SCHEMA, ALL OBJECTS, DOMAIN, TYPE, AGGREGATE, SYNONYM"; SQL statement:
+DROP DATABASE BOARD [42001-240]
+2025-12-10 14:12:49.802493+09:00 jdbc[63]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BOARD" not found; SQL statement:
+DROP TABLE BOARD [42102-240]
+2025-12-10 15:17:05.939372+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-240]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1418)
+	at org.h2.jdbc.JdbcConnection.getMetaData(JdbcConnection.java:333)
+	at org.h2.bnf.context.DbContents.readContents(DbContents.java:168)
+	at org.h2.server.web.WebApp.tables(WebApp.java:773)
+	at org.h2.server.web.WebApp.process(WebApp.java:247)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:176)
+	at org.h2.server.web.WebThread.process(WebThread.java:154)
+	at org.h2.server.web.WebThread.run(WebThread.java:103)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2025-12-10 15:17:06.830666+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-240]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1418)
+	at org.h2.jdbc.JdbcConnection.getMetaData(JdbcConnection.java:333)
+	at org.h2.bnf.context.DbContents.readContents(DbContents.java:168)
+	at org.h2.server.web.WebApp.tables(WebApp.java:773)
+	at org.h2.server.web.WebApp.process(WebApp.java:247)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:176)
+	at org.h2.server.web.WebThread.process(WebThread.java:154)
+	at org.h2.server.web.WebThread.run(WebThread.java:103)
+	at java.base/java.lang.Thread.run(Thread.java:833)

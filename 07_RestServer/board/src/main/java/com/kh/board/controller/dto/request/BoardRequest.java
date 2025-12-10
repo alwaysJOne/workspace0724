@@ -17,7 +17,7 @@ public class BoardRequest {
         public Board toEntity(){
             return Board.builder()
                     .title(title)
-                    .memberEmail(user_id)
+//                    .memberEmail(user_id)
                     .contents(contents)
                     .fileName(file_name)
                     .build();
@@ -38,7 +38,7 @@ public class BoardRequest {
             return Board.builder()
                     .boardId(board_id)
                     .title(title)
-                    .memberEmail(user_id)
+//                    .memberEmail(user_id)
                     .contents(contents)
                     .fileName(origin_name)
                     .build();
