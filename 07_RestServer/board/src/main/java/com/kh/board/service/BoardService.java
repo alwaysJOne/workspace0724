@@ -8,4 +8,5 @@ import java.util.List;
 public interface BoardService {
     List<Board> findAll();
     int save(Board board);
+    Board findOne(Long boardId);
 }

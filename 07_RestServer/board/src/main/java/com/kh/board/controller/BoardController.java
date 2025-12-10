@@ -6,6 +6,7 @@ import com.kh.board.entity.Board;
 import com.kh.board.entity.Member;
 import com.kh.board.mapper.BoardMapper;
 import com.kh.board.service.BoardService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,5 +60,13 @@ public class BoardController {
         } else{
             return new ResponseEntity<>("게시글 등록 실패", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/{boardId}")
+    public ResponseEntity<BoardResponse.DetailDto> getBoard(@PathVariable Long boardId){
+        Board board = boardService.findOne(boardId);
+        BoardResponse.DetailDto result = BoardResponse.DetailDto.of(board);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

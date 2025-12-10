@@ -7,6 +7,8 @@
     <resultMap id="boardResult" type="Board">
         <result column="BOARD_ID" property="boardId"/>
         <result column="TITLE" property="title"/>
+        <result column="CONTENTS" property="contents"/>
+        <result column="FILE_NAME" property="fileName"/>
         <result column="MEMBER_EMAIL" property="memberEmail"/>
         <result column="CREATE_AT" property="createdAt"/>
         <result column="UPDATE_AT" property="updatedAt"/>
@@ -38,4 +40,15 @@
             CURRENT_TIMESTAMP
         )
     </insert>
+    <select id="findOne" resultMap="boardResult">
+        SELECT BOARD_ID,
+                TITLE,
+                MEMBER_EMAIL,
+                CONTENTS,
+                FILE_NAME,
+                CREATE_AT,
+                UPDATE_AT
+        FROM BOARD
+        WHERE BOARD_ID = #{boardId}
+    </select>
 </mapper>
