@@ -272,3 +272,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,eclipse,node,react,java
+07_RestServer/db/tdb.mv.db
+07_RestServer/jpa/tdb.mv.db
+07_RestServer/jpa/tdb.trace.db
