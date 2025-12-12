@@ -1,5 +1,6 @@
 package com.kh.jpa.entity;
 
+import com.kh.jpa.enums.CommonEnums;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
