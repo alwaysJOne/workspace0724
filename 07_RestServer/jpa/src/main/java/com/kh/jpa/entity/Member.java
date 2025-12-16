@@ -37,6 +37,12 @@ public class Member extends BaseTimeEntity {
     @Column(length = 100)
     private String address;
 
+    // ==== 연관관계 맵핑 ====
+    //cascade : Member객체 상태 자체가 삭제(변경)되면 profile에도 영향을 주겠다.
+    //orphanRemoval : Member객체에서 profile의 참조값이 삭제되면 실제 DB에 반영하겠다.
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL,  orphanRemoval = true)
+    private Profile profile;
+
     public enum Gender {
         M, F
     }
