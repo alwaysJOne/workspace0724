@@ -6,6 +6,7 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class MemberRepositoryImpl implements MemberRepository {
@@ -23,8 +24,9 @@ public class MemberRepositoryImpl implements MemberRepository {
         return em.createQuery("select m from Member m", Member.class).getResultList();
     }
 
-    public Member findById(String userId) {
-        return em.find(Member.class, userId);
+    public Optional<Member> findById(String userId) {
+        return Optional.ofNullable(em.find(Member.class, userId));
+        //ofNullable -> 찾는 Member가 있다면 정상적으로 Optional<Member>반환 없다면 Optional<null>반환
     }
 
 }

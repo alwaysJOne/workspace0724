@@ -8,4 +8,5 @@ public interface MemberService {
     String createMember(MemberDto.Create createMemberDto);
     List<MemberDto.Response> getAllMembers();
     MemberDto.Response getMemberByUserId(String userId);
+    MemberDto.Response updateMember(String userId,  MemberDto.Update updateMemberDto);
 }

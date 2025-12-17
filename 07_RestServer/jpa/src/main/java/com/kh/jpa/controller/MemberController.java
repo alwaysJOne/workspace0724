@@ -37,4 +37,17 @@ public class MemberController {
         return ResponseEntity.ok(memberService.getMemberByUserId(userId));
     }
 
+    //회원수정
+    @PutMapping("/{userId}")
+    public ResponseEntity<MemberDto.Response> updateMember(
+            @PathVariable String userId,
+            @RequestBody MemberDto.Update updateMemberDto) {
+
+        MemberDto.Response response = memberService.updateMember(userId, updateMemberDto);
+        return ResponseEntity.ok(response);
+    }
+
+    //회원삭제
+    
+
 }

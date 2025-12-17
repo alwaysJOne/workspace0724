@@ -3,6 +3,7 @@ package com.kh.jpa.service;
 import com.kh.jpa.dto.MemberDto;
 import com.kh.jpa.entity.Member;
 import com.kh.jpa.repository.MemberRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,8 +65,41 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberDto.Response getMemberByUserId(String userId) {
-        Member member = memberRepository.findById(userId);
-        return MemberDto.Response.of(member.getUserId(),
+        return memberRepository.findById(userId)
+                                .map(member -> MemberDto.Response.of(
+                                        member.getUserId(),
+                                        member.getUserName(),
+                                        member.getEmail(),
+                                        member.getGender(),
+                                        member.getAge(),
+                                        member.getPhone(),
+                                        member.getAddress(),
+                                        member.getCreateDate(),
+                                        member.getModifyDate())
+                                )
+                                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+
+    }
+
+    @Override
+    public MemberDto.Response updateMember(String userId, MemberDto.Update updateMemberDto) {
+        //findById는 Optional리턴함
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+        //영속상태의 member를 수정하기때문에 트랜잭션 완료시점에 실제 update문이 절잘된다.
+        member.putUpdate(
+                updateMemberDto.getUser_name(),
+                updateMemberDto.getEmail(),
+                updateMemberDto.getGender(),
+                updateMemberDto.getAge(),
+                updateMemberDto.getPhone(),
+                updateMemberDto.getAddress()
+        );
+
+        return MemberDto.Response.of(
+                member.getUserId(),
                 member.getUserName(),
                 member.getEmail(),
                 member.getGender(),
@@ -73,6 +107,7 @@ public class MemberServiceImpl implements MemberService {
                 member.getPhone(),
                 member.getAddress(),
                 member.getCreateDate(),
-                member.getModifyDate());
+                member.getModifyDate()
+        );
     }
 }

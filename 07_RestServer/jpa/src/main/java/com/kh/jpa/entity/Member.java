@@ -47,6 +47,37 @@ public class Member extends BaseTimeEntity {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL,  orphanRemoval = true)
     private Profile profile;
 
+    //회원정보 전체수정 메서드
+    public void putUpdate(String userName, String email, Gender gender, Integer age, String phone, String address) {
+        this.userName = userName;
+        this.email = email;
+        this.gender = gender;
+        this.age = age;
+        this.phone = phone;
+        this.address = address;
+    }
+
+    //회원정보 부분수정 메서드
+    public void patchUpdate(String userName, String email, Gender gender, Integer age, String phone, String address) {
+        if(userName != null)
+            this.userName = userName;
+
+        if(email != null)
+            this.email = email;
+
+        if(gender != null)
+            this.gender = gender;
+
+        if(age != null)
+            this.age = age;
+
+        if(phone != null)
+            this.phone = phone;
+
+        if(address != null)
+            this.address = address;
+    }
+
     public enum Gender {
         M, F
     }
