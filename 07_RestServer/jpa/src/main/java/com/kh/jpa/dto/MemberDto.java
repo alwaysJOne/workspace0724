@@ -5,10 +5,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 public class MemberDto {
 
@@ -37,6 +36,38 @@ public class MemberDto {
                     phone(phone).
                     address(address).
                     build();
+        }
+    }
+
+    @Getter @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Response{
+        private String user_id;
+        private String user_name;
+        private String email;
+        private Member.Gender gender;
+        private Integer age;
+        private String phone;
+        private String address;
+        private LocalDateTime create_date;
+        private LocalDateTime modify_date;
+
+        public static Response of(String user_id, String user_name, String email,
+                                  Member.Gender gender, Integer age, String phone,
+                                  String address, LocalDateTime create_date, LocalDateTime modify_date) {
+            return Response.builder()
+                    .user_id(user_id)
+                    .user_name(user_name)
+                    .email(email)
+                    .gender(gender)
+                    .age(age)
+                    .phone(phone)
+                    .address(address)
+                    .create_date(create_date)
+                    .modify_date(modify_date)
+                    .build();
         }
     }
 }
