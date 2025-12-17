@@ -2,10 +2,9 @@ package com.kh.jpa.entity;
 
 import com.kh.jpa.enums.CommonEnums;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Builder @AllArgsConstructor
 @Entity
 @Table(name = "member")
 @Getter
@@ -36,6 +35,11 @@ public class Member extends BaseTimeEntity {
 
     @Column(length = 100)
     private String address;
+
+    @Column(length = 1, nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private CommonEnums.Status status = CommonEnums.Status.Y;
 
     // ==== 연관관계 맵핑 ====
     //cascade : Member객체 상태 자체가 삭제(변경)되면 profile에도 영향을 주겠다.
