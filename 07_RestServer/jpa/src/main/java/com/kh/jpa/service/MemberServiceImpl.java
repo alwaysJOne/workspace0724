@@ -61,4 +61,18 @@ public class MemberServiceImpl implements MemberService {
                 )
                 .toList();
     }
+
+    @Override
+    public MemberDto.Response getMemberByUserId(String userId) {
+        Member member = memberRepository.findById(userId);
+        return MemberDto.Response.of(member.getUserId(),
+                member.getUserName(),
+                member.getEmail(),
+                member.getGender(),
+                member.getAge(),
+                member.getPhone(),
+                member.getAddress(),
+                member.getCreateDate(),
+                member.getModifyDate());
+    }
 }

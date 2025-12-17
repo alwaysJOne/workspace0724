@@ -23,8 +23,8 @@ public class MemberRepositoryImpl implements MemberRepository {
         return em.createQuery("select m from Member m", Member.class).getResultList();
     }
 
-    public Member findById(String id) {
-        return em.find(Member.class, id);
+    public Member findById(String userId) {
+        return em.find(Member.class, userId);
     }
 
 }

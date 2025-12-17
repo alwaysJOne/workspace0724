@@ -34,7 +34,7 @@ public class MemberController {
     //id로 회원조회
     @GetMapping("/{userId}")
     public ResponseEntity<MemberDto.Response> getMember(@PathVariable String userId) {
-        return ResponseEntity.ok(new MemberDto.Response());
+        return ResponseEntity.ok(memberService.getMemberByUserId(userId));
     }
 
 }
