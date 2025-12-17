@@ -34,4 +34,12 @@ public class MemberRepositoryImpl implements MemberRepository {
         em.remove(member);
     }
 
+    @Override
+    public List<Member> findByUserNameContaining(String keyword) {
+        String jpql = "select m from Member m where m.userName LIKE :keyword";
+        return em.createQuery(jpql, Member.class)
+                .setParameter("keyword", "%" + keyword + "%")
+                .getResultList();
+    }
+
 }

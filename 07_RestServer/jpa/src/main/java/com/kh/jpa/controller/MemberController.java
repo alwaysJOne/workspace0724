@@ -57,6 +57,7 @@ public class MemberController {
     //이름으로 회원 검색
     @GetMapping("/search")
     public ResponseEntity<List<MemberDto.Response>> searchMemberByName(@RequestParam String keyword) {
+        return ResponseEntity.ok(memberService.getMembersByName(keyword));
         //keyword로 userName 키워드 검색 후 결과값 반환
     }
 }
