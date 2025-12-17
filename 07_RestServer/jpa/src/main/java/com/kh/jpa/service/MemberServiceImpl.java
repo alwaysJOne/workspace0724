@@ -110,4 +110,12 @@ public class MemberServiceImpl implements MemberService {
                 member.getModifyDate()
         );
     }
+
+    @Override
+    public void deleteMember(String userId) {
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+        memberRepository.delete(member);
+    }
 }
