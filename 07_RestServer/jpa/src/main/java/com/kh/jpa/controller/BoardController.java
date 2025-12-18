@@ -4,10 +4,14 @@ import com.kh.jpa.dto.BoardDto;
 import com.kh.jpa.entity.Board;
 import com.kh.jpa.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/board")
@@ -17,13 +21,24 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping
-    public ResponseEntity<?> createBoard(@ModelAttribute BoardDto.Create createBoardDto) throws IOException {
+    public ResponseEntity<Long> createBoard(@ModelAttribute BoardDto.Create createBoardDto) throws IOException {
         Long boardId = boardService.createBoard(createBoardDto);
         return ResponseEntity.ok(boardId);
     }
 
     @GetMapping("/{boardId}")
-    public ResponseEntity<?> getBoard(@PathVariable("boardId") Long boardId) throws IOException {
-        return ResponseEntity.ok("BoardDto.ResponseDetail")
+    public ResponseEntity<BoardDto.Response> getBoard(@PathVariable("boardId") Long boardId) {
+        return ResponseEntity.ok(boardService.getBoardDetail(boardId));
+    }
+
+    /*
+    page 확인하고자하는 페이지번호
+    size 몇개를 가지고오겠는가
+    sort 정렬을 어떻게 하겠는가? : 속성, 방향(boardTitle, desc)
+     */
+    @GetMapping
+    public ResponseEntity<List<BoardDto.Response>> getAllBoards(
+            @PageableDefault(size = 5, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable) {
+    
     }
 }

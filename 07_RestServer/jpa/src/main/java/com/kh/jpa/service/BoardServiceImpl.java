@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -76,5 +77,30 @@ public class BoardServiceImpl implements BoardService {
 
         boardRepository.save(board);
         return board.getBoardId();
+    }
+
+    @Override
+    public BoardDto.Response getBoardDetail(Long boardId) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new EntityNotFoundException("게시글을 찾을 수 없습니다."));
+
+        List<String> tagNames = board.getBoardTags()
+                .stream()
+                .map(boardTag -> boardTag.getTag().getTagName())
+                .toList();
+
+
+        return BoardDto.Response.of(
+                board.getBoardId(),
+                board.getBoardTitle(),
+                board.getBoardContent(),
+                board.getOriginName(),
+                board.getChangeName(),
+                board.getCount(),
+                board.getMember().getUserId(),
+                board.getMember().getUserName(),
+                board.getCreateDate(),
+                tagNames
+        );
     }
 }
