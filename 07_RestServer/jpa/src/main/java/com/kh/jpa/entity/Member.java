@@ -4,6 +4,9 @@ import com.kh.jpa.enums.CommonEnums;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Builder @AllArgsConstructor
 @Entity
 @Table(name = "member")
@@ -46,6 +49,11 @@ public class Member extends BaseTimeEntity {
     //orphanRemoval : Member객체에서 profile의 참조값이 삭제되면 실제 DB에 반영하겠다.
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL,  orphanRemoval = true)
     private Profile profile;
+
+    //회원 : 게시글 (1 : N)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL,  orphanRemoval = true)
+    @Builder.Default
+    private List<Board> boards = new ArrayList<>();
 
     //회원정보 전체수정 메서드
     public void putUpdate(String userName, String email, Gender gender, Integer age, String phone, String address) {
