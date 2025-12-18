@@ -1,9 +1,11 @@
 package com.kh.jpa.controller;
 
 import com.kh.jpa.dto.BoardDto;
+import com.kh.jpa.dto.PageResponse;
 import com.kh.jpa.entity.Board;
 import com.kh.jpa.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -37,8 +39,22 @@ public class BoardController {
     sort 정렬을 어떻게 하겠는가? : 속성, 방향(boardTitle, desc)
      */
     @GetMapping
-    public ResponseEntity<List<BoardDto.Response>> getAllBoards(
+    public ResponseEntity<PageResponse<BoardDto.Response>> getAllBoards(
             @PageableDefault(size = 5, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable) {
-    
+            Page<BoardDto.Response> page = boardService.getBoardList(pageable);
+            return ResponseEntity.ok(new PageResponse<>(page));
+    }
+
+    @PatchMapping("/{boardId}")
+    public ResponseEntity<BoardDto.Response> updateBoard(
+            @PathVariable("boardId") Long boardId,
+            @ModelAttribute BoardDto.Update updateBoard
+    ){
+
+    }
+
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<Void> deleteBoard(@PathVariable("boardId") Long boardId) {
+        
     }
 }

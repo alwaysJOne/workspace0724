@@ -5,11 +5,14 @@ import com.kh.jpa.entity.Board;
 import com.kh.jpa.entity.BoardTag;
 import com.kh.jpa.entity.Member;
 import com.kh.jpa.entity.Tag;
+import com.kh.jpa.enums.CommonEnums;
 import com.kh.jpa.repository.BoardRepository;
 import com.kh.jpa.repository.MemberRepository;
 import com.kh.jpa.repository.TagRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -102,5 +105,20 @@ public class BoardServiceImpl implements BoardService {
                 board.getCreateDate(),
                 tagNames
         );
+    }
+
+    @Override
+    public Page<BoardDto.Response> getBoardList(Pageable pageable) {
+
+        Page<Board> page = boardRepository.findByStatus(CommonEnums.Status.Y, pageable);
+
+        return page.map(board -> BoardDto.Response.ofSimple(
+                board.getBoardId(),
+                board.getBoardTitle(),
+                board.getOriginName(),
+                board.getCount(),
+                board.getMember().getUserId(),
+                board.getCreateDate()
+        ));
     }
 }
