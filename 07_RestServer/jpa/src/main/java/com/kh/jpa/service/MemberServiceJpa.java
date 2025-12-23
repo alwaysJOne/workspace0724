@@ -42,21 +42,70 @@ public class MemberServiceJpa implements  MemberService{
 
     @Override
     public MemberDto.Response getMemberByUserId(String userId) {
-        return null;
+        return memberJPARepository.findById(userId)
+                .map(member -> MemberDto.Response.of(
+                        member.getUserId(),
+                        member.getUserName(),
+                        member.getEmail(),
+                        member.getGender(),
+                        member.getAge(),
+                        member.getPhone(),
+                        member.getAddress(),
+                        member.getCreateDate(),
+                        member.getModifyDate())
+                )
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
     }
 
     @Override
     public MemberDto.Response updateMember(String userId, MemberDto.Update updateMemberDto) {
-        return null;
+        Member member = memberJPARepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+        member.putUpdate(
+                updateMemberDto.getUser_name(),
+                updateMemberDto.getEmail(),
+                updateMemberDto.getGender(),
+                updateMemberDto.getAge(),
+                updateMemberDto.getPhone(),
+                updateMemberDto.getAddress()
+        );
+
+        return MemberDto.Response.of(
+                member.getUserId(),
+                member.getUserName(),
+                member.getEmail(),
+                member.getGender(),
+                member.getAge(),
+                member.getPhone(),
+                member.getAddress(),
+                member.getCreateDate(),
+                member.getModifyDate()
+        );
     }
 
     @Override
     public void deleteMember(String userId) {
+        Member member = memberJPARepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 
+        memberJPARepository.delete(member);
     }
 
     @Override
     public List<MemberDto.Response> getMembersByName(String keyword) {
-        return List.of();
+        return  memberJPARepository.findByUserNameContaining(keyword)
+                .stream()
+                .map((member) -> MemberDto.Response.of(
+                        member.getUserId(),
+                        member.getUserName(),
+                        member.getEmail(),
+                        member.getGender(),
+                        member.getAge(),
+                        member.getPhone(),
+                        member.getAddress(),
+                        member.getCreateDate(),
+                        member.getModifyDate()
+                )).toList();
     }
 }

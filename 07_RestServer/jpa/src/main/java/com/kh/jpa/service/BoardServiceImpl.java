@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-@Service
+//@Service
 @RequiredArgsConstructor
 @Transactional(readOnly=true) //readOnly=true 데이터를 조회만하고, DML은 하지 않는 트랜잭션
 public class BoardServiceImpl implements BoardService {
