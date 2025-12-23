@@ -49,4 +49,9 @@ public class BoardRepositoryImpl implements BoardRepository {
         //PageImpl : 페이징 정보와 함께 반환
         return new PageImpl<>(boards, pageable, totalCount);
     }
+
+    @Override
+    public void delete(Board board) {
+        em.remove(board);
+    }
 }

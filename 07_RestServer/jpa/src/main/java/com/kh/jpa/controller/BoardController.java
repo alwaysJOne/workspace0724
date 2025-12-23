@@ -49,12 +49,14 @@ public class BoardController {
     public ResponseEntity<BoardDto.Response> updateBoard(
             @PathVariable("boardId") Long boardId,
             @ModelAttribute BoardDto.Update updateBoard
-    ){
+    ) throws IOException {
 
+        BoardDto.Response boardDto = boardService.updateBoard(boardId, updateBoard);
+        return ResponseEntity.ok(boardDto);
     }
 
     @DeleteMapping("/{boardId}")
     public ResponseEntity<Void> deleteBoard(@PathVariable("boardId") Long boardId) {
-        
+        boardService.deleteBoard(boardId);
     }
 }
