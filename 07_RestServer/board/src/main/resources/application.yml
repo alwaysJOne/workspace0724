@@ -38,3 +38,6 @@ server:
 mybatis:
   type-aliases-package: com.kh.board.entity
   mapper-locations: mappers/*.xml
+
+
+servlet mu
