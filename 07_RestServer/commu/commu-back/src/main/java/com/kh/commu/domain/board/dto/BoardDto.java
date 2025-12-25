@@ -1,6 +1,5 @@
 package com.kh.commu.domain.board.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kh.commu.domain.board.entity.Board;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,34 +18,24 @@ public class BoardDto {
     @Builder
     public static class Response {
 
-        @JsonProperty("board_id")
         private Long boardId;
 
-        @JsonProperty("board_title")
         private String boardTitle;
 
-        @JsonProperty("board_content")
         private String boardContent;
 
-        @JsonProperty("origin_name")
         private String originName;
 
-        @JsonProperty("change_name")
         private String changeName;
 
-        @JsonProperty("count")
         private Integer count;
 
-        @JsonProperty("user_id")
         private String userId;
 
-        @JsonProperty("user_name")
         private String userName;
 
-        @JsonProperty("create_date")
         private LocalDateTime createDate;
 
-        @JsonProperty("tags")
         private List<String> tags;
 
         public static Response from(Board board) {
