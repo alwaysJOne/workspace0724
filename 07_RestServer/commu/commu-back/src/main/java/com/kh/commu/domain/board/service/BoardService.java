@@ -12,6 +12,7 @@ import com.kh.commu.domain.member.repository.MemberRepository;
 import com.kh.commu.global.common.CommonEnums;
 import com.kh.commu.global.dto.PageResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,9 @@ public class BoardService {
     private final MemberRepository memberRepository;
     private final TagRepository tagRepository;
     private final BoardTagRepository boardTagRepository;
+
+    @Value("${file.upload.path}")
+    private String uploadPath;
 
     @Transactional
     public Long createBoard(String boardTitle, String boardContent, String userId, 
@@ -141,8 +145,7 @@ public class BoardService {
     }
 
     private String saveFile(MultipartFile file) {
-        String uploadDir = "uploads/";
-        File dir = new File(uploadDir);
+        File dir = new File(uploadPath);
         if (!dir.exists()) {
             dir.mkdirs();
         }
@@ -154,19 +157,19 @@ public class BoardService {
         }
 
         String savedFilename = UUID.randomUUID().toString() + extension;
-        File destFile = new File(uploadDir + savedFilename);
+        File destFile = new File(uploadPath + savedFilename);
 
         try {
             file.transferTo(destFile);
         } catch (IOException e) {
-            throw new RuntimeException("파일 저장에 실패했습니다", e);
+            throw new RuntimeException("파일 저장에 실패했습니다: " + e.getMessage(), e);
         }
 
         return savedFilename;
     }
 
     private void deleteFile(String filename) {
-        File file = new File("uploads/" + filename);
+        File file = new File(uploadPath + filename);
         if (file.exists()) {
             file.delete();
         }

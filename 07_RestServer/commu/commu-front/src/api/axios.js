@@ -48,8 +48,8 @@ api.interceptors.response.use(
     if (error.response) {
       const { status, data } = error.response;
       
-      // 401 에러 (인증 실패) - 자동 로그아웃
-      if (status === 401) {
+      // 401 에러 (인증 실패) - 로그인 API가 아닌 경우에만 자동 로그아웃
+      if (status === 401 && !error.config.url.includes('/login')) {
         try {
           useAuthStore.getState().logout();
           window.location.href = '/login';

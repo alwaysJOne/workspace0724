@@ -146,3 +146,10 @@ export const ErrorMessage = styled.div`
   font-size: ${props => props.theme.fonts.size.sm};
 `;
 
+export const LoadingState = styled.div`
+  text-align: center;
+  padding: ${props => props.theme.spacing[12]};
+  color: ${props => props.theme.colors.text.secondary};
+  font-size: ${props => props.theme.fonts.size.lg};
+`;
+

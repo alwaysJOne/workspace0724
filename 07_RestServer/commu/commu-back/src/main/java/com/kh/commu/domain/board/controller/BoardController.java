@@ -34,9 +34,9 @@ public class BoardController {
 
     @GetMapping
     public ResponseEntity<PageResponse<BoardDto.Response>> getAllBoards(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size,
-            @RequestParam(defaultValue = "createDate,desc") String sort) {
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size,
+            @RequestParam(value = "sort", defaultValue = "createDate,desc") String sort) {
         
         String[] sortParams = sort.split(",");
         Sort.Direction direction = sortParams.length > 1 && sortParams[1].equalsIgnoreCase("desc") 
