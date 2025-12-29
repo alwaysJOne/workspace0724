@@ -2,8 +2,10 @@ package com.kh.commu.domain.member.controller;
 
 import com.kh.commu.domain.member.dto.MemberDto;
 import com.kh.commu.domain.member.service.MemberService;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
@@ -12,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/member")
 @RequiredArgsConstructor
+@Validated
 public class MemberController {
 
     private final MemberService memberService;
@@ -29,7 +32,8 @@ public class MemberController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<MemberDto.Response> getMemberById(@PathVariable String userId) {
+    public ResponseEntity<MemberDto.Response> getMemberById(
+            @PathVariable @NotBlank(message = "사용자ID는 필수입니다.") String userId) {
         MemberDto.Response response = memberService.getMemberById(userId);
         return ResponseEntity.ok(response);
     }
