@@ -2,6 +2,8 @@ package com.kh.commu.domain.board.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kh.commu.domain.board.entity.Board;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +14,48 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class BoardDto {
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class Request {
+
+        @JsonProperty("board_title")
+        @NotBlank(message = "게시글 제목은 필수입니다")
+        @Size(min = 2, max = 100, message = "게시글 제목은 2자 이상 100자 이하여야 합니다")
+        private String boardTitle;
+
+        @JsonProperty("board_content")
+        @NotBlank(message = "게시글 내용은 필수입니다")
+        @Size(min = 10, max = 5000, message = "게시글 내용은 10자 이상 5000자 이하여야 합니다")
+        private String boardContent;
+
+        @JsonProperty("user_id")
+        @NotBlank(message = "작성자 ID는 필수입니다")
+        private String userId;
+
+        @JsonProperty("tags")
+        private List<String> tags;
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class UpdateRequest {
+
+        @JsonProperty("board_title")
+        @Size(min = 2, max = 100, message = "게시글 제목은 2자 이상 100자 이하여야 합니다")
+        private String boardTitle;
+
+        @JsonProperty("board_content")
+        @Size(min = 10, max = 5000, message = "게시글 내용은 10자 이상 5000자 이하여야 합니다")
+        private String boardContent;
+
+        @JsonProperty("tags")
+        private List<String> tags;
+    }
 
     @Getter
     @NoArgsConstructor
