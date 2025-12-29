@@ -19,9 +19,9 @@ api.interceptors.request.use(
       const token = useAuthStore.getState().token;
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
-        console.log('✅ 토큰 첨부:', token.substring(0, 20) + '...');
+        console.log('토큰 첨부:', token.substring(0, 20) + '...');
       } else {
-        console.log('⚠️ 토큰 없음');
+        console.log('토큰 없음');
       }
     } catch (error) {
       console.error('❌ Auth store error:', error);
@@ -52,10 +52,24 @@ api.interceptors.response.use(
       if (status === 401 && !error.config.url.includes('/login')) {
         try {
           useAuthStore.getState().logout();
+          alert('인증이 만료되었습니다. 다시 로그인해주세요.');
           window.location.href = '/login';
         } catch (e) {
           console.error('Logout error:', e);
         }
+      }
+      
+      // 403 에러 (권한 없음)
+      if (status === 403) {
+        const errorMessage = data?.message || '접근 권한이 없습니다.';
+        alert(errorMessage);
+        console.error('❌ 403 Forbidden:', errorMessage);
+        
+        return Promise.reject({
+          status,
+          message: errorMessage,
+          data,
+        });
       }
       
       // 에러 메시지 표준화

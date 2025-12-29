@@ -3,7 +3,6 @@ package com.kh.commu.domain.board.controller;
 import com.kh.commu.domain.board.dto.BoardDto;
 import com.kh.commu.domain.board.service.BoardService;
 import com.kh.commu.global.dto.PageResponse;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +14,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/board")
 @RequiredArgsConstructor
@@ -25,16 +26,13 @@ public class BoardController {
 
     @PostMapping
     public ResponseEntity<Long> createBoard(
-            @Valid @RequestBody BoardDto.Request request,
-            @RequestParam(value = "file", required = false) MultipartFile file) {
+            @RequestParam("board_title") String boardTitle,
+            @RequestParam("board_content") String boardContent,
+            @RequestParam("user_id") String userId,
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            @RequestParam(value = "tags", required = false) List<String> tags) {
         
-        Long boardId = boardService.createBoard(
-                request.getBoardTitle(),
-                request.getBoardContent(),
-                request.getUserId(),
-                file,
-                request.getTags()
-        );
+        Long boardId = boardService.createBoard(boardTitle, boardContent, userId, file, tags);
         return ResponseEntity.ok(boardId);
     }
 
@@ -63,16 +61,12 @@ public class BoardController {
     @PatchMapping("/{boardId}")
     public ResponseEntity<BoardDto.Response> updateBoard(
             @PathVariable @Positive(message = "게시글 ID는 양수여야 합니다") Long boardId,
-            @Valid @RequestBody BoardDto.UpdateRequest request,
-            @RequestParam(value = "file", required = false) MultipartFile file) {
+            @RequestParam(value = "board_title", required = false) String boardTitle,
+            @RequestParam(value = "board_content", required = false) String boardContent,
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            @RequestParam(value = "tags", required = false) List<String> tags) {
         
-        BoardDto.Response response = boardService.updateBoard(
-                boardId,
-                request.getBoardTitle(),
-                request.getBoardContent(),
-                file,
-                request.getTags()
-        );
+        BoardDto.Response response = boardService.updateBoard(boardId, boardTitle, boardContent, file, tags);
         return ResponseEntity.ok(response);
     }
 

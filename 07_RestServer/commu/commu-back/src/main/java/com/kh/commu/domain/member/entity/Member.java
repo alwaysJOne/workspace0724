@@ -44,8 +44,18 @@ public class Member extends BaseTimeEntity {
     @Builder.Default
     private CommonEnums.Status status = CommonEnums.Status.Y;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", length = 10, nullable = false)
+    @Builder.Default
+    private Role role = Role.USER;
+
     public enum Gender {
         M, F
+    }
+
+    public enum Role {
+        USER,   // 일반 사용자
+        ADMIN   // 관리자
     }
 
     public void updateMemberInfo(String userName, String email, Gender gender, Integer age, String phone, String address) {

@@ -4,6 +4,8 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -54,11 +56,29 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 인증 실패 (로그인 실패, 잘못된 토큰 등)
+     */
+    @ExceptionHandler({AuthenticationException.class, BadCredentialsException.class})
+    public ResponseEntity<ErrorResponse> handleAuthenticationException(Exception ex) {
+        ErrorResponse response = ErrorResponse.of("인증에 실패했습니다");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
+    /**
+     * IllegalArgumentException (비즈니스 로직 예외)
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
+        ErrorResponse response = ErrorResponse.of(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    /**
      * 기타 예외 처리
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {
-        ErrorResponse response = ErrorResponse.of(ex.getMessage());
+        ErrorResponse response = ErrorResponse.of("서버 오류가 발생했습니다: " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 }
