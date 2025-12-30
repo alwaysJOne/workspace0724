@@ -5,6 +5,7 @@ import com.kh.commu.domain.member.entity.Member;
 import com.kh.commu.domain.member.repository.MemberRepository;
 import com.kh.commu.global.common.CommonEnums;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public String createMember(MemberDto.Request request) {
@@ -24,7 +26,17 @@ public class MemberService {
             throw new IllegalArgumentException("이미 존재하는 회원ID입니다.");
         }
 
-        Member member = request.toEntity();
+        Member member = Member.builder()
+                .userId(request.getUserId())
+                .userPwd(passwordEncoder.encode(request.getUserPwd()))
+                .userName(request.getUserName())
+                .email(request.getEmail())
+                .gender(request.getGender())
+                .age(request.getAge())
+                .phone(request.getPhone())
+                .address(request.getAddress())
+                .build();
+
         memberRepository.save(member);
         return member.getUserId();
     }

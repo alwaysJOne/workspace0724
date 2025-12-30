@@ -47,19 +47,6 @@ public class MemberDto {
 
         @JsonProperty("address")
         private String address;
-
-        public Member toEntity() {
-            return Member.builder()
-                    .userId(userId)
-                    .userPwd(userPwd)
-                    .userName(userName)
-                    .email(email)
-                    .gender(gender)
-                    .age(age)
-                    .phone(phone)
-                    .address(address)
-                    .build();
-        }
     }
 
     @Getter

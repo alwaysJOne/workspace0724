@@ -9,5 +9,9 @@ public class CommonEnums {
             return Y;
         }
     }
+
+    public enum Role {
+        USER, ADMIN;
+    }
 }
 
