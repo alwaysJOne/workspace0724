@@ -20,6 +20,10 @@ public class MemberService {
 
     @Transactional
     public String createMember(MemberDto.Request request) {
+        if(memberRepository.existsById(request.getUserId())){
+            throw new IllegalArgumentException("이미 존재하는 회원ID입니다.");
+        }
+
         Member member = request.toEntity();
         memberRepository.save(member);
         return member.getUserId();
