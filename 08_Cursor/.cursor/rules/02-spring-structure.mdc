@@ -1,0 +1,17 @@
+---
+alwaysApply: true
+---
+
+- Spring Boot는 기본적으로 MVC 패턴을 사용한다(Controller → Service → Repository).
+- 패키지 구조는 “도메인(기능) 단위”를 최상위 기준으로 한다(기술/레이어 기준 최상위 분리는 지양).
+
+## 1) 패키지/구조
+ - 최상위 패키지는 도메인(기능)을 기준으로 구성한다(예: domain/auth, domain/member, domain/chat ...)
+ - 각 도메인 내부는 controller -> service -> repository -> entity 레이어로 분리한다.
+ - 공통 코드는 global(common) 패키지에 둔다. (config, security, exception, util 등 ...)
+ - 도메인 전용 코드(Entity/DTO/Serivce...)는 global로 올리지 않는다.
+
+## 2) 의존성/경계
+ - Contoller는 비즈니스로직을 금지, 요청/응답 매핑 + 검증(@Valid) + 서비스 호출만 한다.
+ - Service는 도메인 로직의 중심으로 트랜잭션 경계를 가진다.
+  - 조회는 @Transactional(readOnly = true) 우선 적용한다.

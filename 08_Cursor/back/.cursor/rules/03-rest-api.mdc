@@ -1,0 +1,8 @@
+---
+alwaysApply: true
+---
+
+- Rest 경로 : /api 기준, 리소스는 복수형(/members, /boards)
+- 응답은 표준 포멧을 사용한다. { success, data, error} (프로젝트의 Response에 맞춰 통일)
+- 검증은 jakarta validation 사용 : @Valid + DTO에 어노테이션
+- 페이지네이션은 Spring Data Pageable을 사용한다.(가능하다면)

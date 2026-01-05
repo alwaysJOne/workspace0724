@@ -57,99 +57,131 @@
 
 ## 프로젝트 구조
 
+이 프로젝트는 React 애플리케이션을 위한 컴포넌트 기반 아키텍처를 따르며, 모듈화, 재사용성 및 유지보수성을 극대화하도록 구성되었습니다.
+
 ```
-front/
-├── public/                          # 정적 파일
+.
+├── public/                     # 정적 파일 (예: favicon, 로고)
 │   ├── alpha_favicon.ico
 │   └── logo.png
 │
-├── src/
-│   ├── api/                         # API 관련
-│   │   ├── axios.js                 # Axios 인스턴스 및 인터셉터
-│   │   ├── config.js                # API 설정 및 엔드포인트
-│   │   ├── services.js              # API 서비스 함수
-│   │   └── index.js
+├── src/                        # 메인 애플리케이션 소스 코드
+│   ├── api/                    # API 서비스 통합 (Axios 인스턴스, 설정, 서비스)
+│   │   ├── axios.js            # Axios 인스턴스 및 인터셉터 설정
+│   │   ├── config.js           # API 기본 URL, 타임아웃, 엔드포인트 상수 정의
+│   │   ├── services.js         # API 호출 함수들을 도메인별로 그룹화
+│   │   └── index.js            # API 모듈 내보내기
 │   │
-│   ├── components/                  # 재사용 가능한 컴포넌트
-│   │   ├── common/                  # 공통 컴포넌트
-│   │   │   └── Modal/               # 모달 컴포넌트
+│   ├── assets/                 # 이미지, 아이콘 등 정적 자원
+│   │   └── icons/
+│   │       └── google_login.svg
+│   │
+│   ├── components/             # 재사용 가능한 UI 컴포넌트
+│   │   ├── common/             # 공통/전역 컴포넌트 (예: 모달)
+│   │   │   └── Modal/          # 모달 컴포넌트 (Alert, Confirm 포함)
 │   │   │       ├── Modal.jsx
 │   │   │       ├── Alert.jsx
 │   │   │       ├── Confirm.jsx
 │   │   │       ├── Modal.styled.js
 │   │   │       └── index.js
 │   │   │
-│   │   ├── Layout/                  # 레이아웃 컴포넌트
-│   │   │   ├── Layout.jsx
-│   │   │   ├── Layout.styled.js
-│   │   │   └── index.js
-│   │   │
-│   │   ├── Header/                  # 헤더 컴포넌트
-│   │   │   ├── Header.jsx
-│   │   │   ├── Header.styled.js
-│   │   │   └── index.js
-│   │   │
-│   │   ├── Footer/                  # 푸터 컴포넌트
+│   │   ├── Footer/             # 애플리케이션 푸터
 │   │   │   ├── Footer.jsx
 │   │   │   ├── Footer.styled.js
 │   │   │   └── index.js
 │   │   │
-│   │   ├── BottomNavigation/        # 하단 네비게이션 (모바일)
+│   │   ├── Header/             # 애플리케이션 헤더
+│   │   │   ├── Header.jsx
+│   │   │   ├── Header.styled.js
+│   │   │   └── index.js
+│   │   │
+│   │   ├── Layout/             # 전체 애플리케이션 레이아웃
+│   │   │   ├── index.js
+│   │   │   ├── Layout.jsx
+│   │   │   └── Layout.styled.js
+│   │   │
+│   │   ├── ProtectedRoute/     # 라우트 보호/인증을 위한 컴포넌트
+│   │   │   ├── index.js
+│   │   │   └── ProtectedRoute.jsx
+│   │   │
+│   │   ├── BottomNavigation/   # 하단 네비게이션 (주로 모바일 환경)
 │   │   │   ├── BottomNavigation.jsx
 │   │   │   ├── BottomNavigation.styled.js
 │   │   │   └── index.js
 │   │   │
-│   │   ├── ProtectedRoute/          # 인증 라우트 보호
-│   │   │   ├── ProtectedRoute.jsx
-│   │   │   └── index.js
-│   │   │
-│   │   └── TiptapEditor/            # 에디터 컴포넌트 (선택사항)
+│   │   └── TiptapEditor/       # WYSIWYG 에디터 컴포넌트 (선택사항)
 │   │       ├── TiptapEditor.jsx
 │   │       ├── TiptapEditor.styled.js
 │   │       └── index.js
 │   │
-│   ├── pages/                       # 페이지 컴포넌트
-│   │   ├── HomePage/
+│   ├── hooks/                  # 재사용 가능한 커스텀 React 훅
+│   │   ├── useInput.js         # 입력 필드 상태 관리 훅
+│   │   └── useModal.js         # 모달 상태 관리 훅
+│   │
+│   ├── pages/                  # 애플리케이션의 각기 다른 뷰를 나타내는 최상위 컴포넌트
+│   │   ├── BoardDetailPage/    # 게시판 상세 페이지
+│   │   │   ├── BoardDetailPage.jsx
+│   │   │   ├── BoardDetailPage.styled.js
+│   │   │   └── index.js
+│   │   │
+│   │   ├── BoardListPage/      # 게시판 목록 페이지
+│   │   │   ├── BoardListPage.jsx
+│   │   │   ├── BoardListPage.styled.js
+│   │   │   └── index.js
+│   │   │
+│   │   ├── BoardWritePage/     # 게시판 글쓰기 페이지
+│   │   │   ├── BoardWritePage.jsx
+│   │   │   ├── BoardWritePage.styled.js
+│   │   │   └── index.js
+│   │   │
+│   │   ├── HomePage/           # 메인/홈 페이지
 │   │   │   ├── HomePage.jsx
 │   │   │   ├── HomePage.styled.js
 │   │   │   └── index.js
 │   │   │
-│   │   ├── LoginPage/
+│   │   ├── LoginPage/          # 로그인 페이지
+│   │   │   ├── index.js
 │   │   │   ├── LoginPage.jsx
-│   │   │   ├── LoginPage.styled.js
-│   │   │   └── index.js
+│   │   │   └── LoginPage.styled.js
 │   │   │
-│   │   └── ...                      # 기타 페이지들
+│   │   ├── MemberListPage/     # 회원 목록 페이지
+│   │   │   ├── index.js
+│   │   │   ├── MemberListPage.jsx
+│   │   │   └── MemberListPage.styled.js
+│   │   │
+│   │   └── SignupPage/         # 회원가입 페이지
+│   │       ├── index.js
+│   │       ├── SignupPage.jsx
+│   │       └── SignupPage.styled.js
 │   │
-│   ├── store/                       # 상태 관리 (Zustand)
-│   │   └── authStore.js             # 인증 상태 관리
+│   ├── store/                  # 전역 상태 관리 (Zustand 사용)
+│   │   └── authStore.js        # 인증 관련 상태 스토어
 │   │
-│   ├── hooks/                       # Custom Hooks
-│   │   ├── useModal.js              # 모달 관리 훅
-│   │   └── useInput.js              # 입력 관리 훅
+│   ├── styles/                 # 전역 스타일, 테마 정의, 유틸리티 믹스인
+│   │   ├── GlobalStyle.js      # 전역 CSS 리셋 및 기본 스타일
+│   │   ├── mixins.js           # 재사용 가능한 스타일 믹스인
+│   │   ├── theme.js            # 색상, 폰트, 간격 등 테마 설정
+│   │   ├── commonPageStyles.js # 공통 페이지 스타일
+│   │   └── MediaQueries.js     # 반응형 미디어 쿼리 유틸리티
 │   │
-│   ├── styles/                      # 스타일 관련
-│   │   ├── GlobalStyle.js           # 전역 스타일
-│   │   ├── theme.js                 # 테마 설정
-│   │   ├── mixins.js                # 재사용 가능한 스타일 믹스인
-│   │   ├── commonPageStyles.js      # 공통 페이지 스타일
-│   │   └── MediaQueries.js          # 반응형 미디어 쿼리
+│   ├── utils/                  # 비즈니스 로직과 무관한 순수 유틸리티 함수
+│   │   ├── imageHelper.js      # 이미지 처리 관련 유틸리티
+│   │   └── passwordValidator.js # 비밀번호 유효성 검사 유틸리티
 │   │
-│   ├── utils/                       # 유틸리티 함수
-│   │   ├── imageHelper.js
-│   │   └── passwordValidator.js
-│   │
-│   ├── assets/                      # 정적 리소스
-│   │   └── icons/
-│   │       └── google_login.svg
-│   │
-│   ├── App.jsx                      # 루트 컴포넌트
-│   └── main.jsx                     # 엔트리 포인트
+│   ├── App.css                 # 전역 애플리케이션 CSS
+│   ├── App.jsx                 # 메인 애플리케이션 컴포넌트
+│   ├── index.css               # 기본 CSS
+│   └── main.jsx                # 애플리케이션 엔트리 포인트
 │
-├── eslint.config.js                 # ESLint 설정
-├── vite.config.js                   # Vite 설정
-├── package.json                     # 프로젝트 의존성
-└── index.html                       # HTML 템플릿
+├── eslint.config.js            # ESLint 설정 파일
+├── vite.config.js              # Vite 빌드 도구 설정 파일
+├── package.json                # 프로젝트 메타데이터 및 의존성 정의
+├── package-lock.json           # 정확한 의존성 트리 기록
+├── index.html                  # 메인 HTML 템플릿 파일
+├── .gitignore                  # Git 추적에서 제외할 파일 지정
+├── API_DOCUMENTATION.md        # API 엔드포인트 및 사용법 문서
+└── README.md                   # 프로젝트 개요 및 기본 정보 (이 파일)
+```
 ```
 
 ---
